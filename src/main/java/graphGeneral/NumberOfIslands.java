@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 public class NumberOfIslands {
 
-  private class ScanIslandsTask {
+  private class Scan {
 
     private final boolean[] visited;
     private final char[][] grid;
@@ -24,7 +24,7 @@ public class NumberOfIslands {
       return true;
     }
 
-    public ScanIslandsTask(char[][] grid) {
+    public Scan(char[][] grid) {
       this.m = grid.length;
       if (m <= 0 || m > 300) {
         throw new IllegalArgumentException("1 <= m, n <= 300 constraint violation");
@@ -122,17 +122,17 @@ public class NumberOfIslands {
   }
 
   public int numIslands(char[][] grid) {
-    ScanIslandsTask s = new ScanIslandsTask(grid);
+    Scan s = new Scan(grid);
     return s.scanRecursive();
   }
 
   public int numIslandsRecursive(char[][] grid) {
-    ScanIslandsTask s = new ScanIslandsTask(grid);
+    Scan s = new Scan(grid);
     return s.scanRecursive();
   }
 
   public int numIslandsIterative(char[][] grid) {
-    ScanIslandsTask s = new ScanIslandsTask(grid);
+    Scan s = new Scan(grid);
     return s.scanIterative();
   }
 }
