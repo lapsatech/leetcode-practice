@@ -1,4 +1,4 @@
-package easy
+package arrayString
 
 import arrayString.RemoveDuplicatesFromSortedArray
 import spock.lang.Specification

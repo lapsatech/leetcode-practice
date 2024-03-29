@@ -1,4 +1,4 @@
-package easy
+package arrayString
 
 import arrayString.BestTimeToBuyAndSellStock
 import spock.lang.Specification
