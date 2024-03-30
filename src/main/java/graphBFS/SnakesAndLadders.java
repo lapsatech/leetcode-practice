@@ -1,136 +1,118 @@
 package graphBFS;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 public class SnakesAndLadders {
 
-  static interface FlattenBoardBuilder {
-    FlattenBoard fromBoustrophedon(int[][] boustrophedonBoard);
+  public int snakesAndLadders(int[][] boustrophedonBoard) {
+    FlattenBoard board = new BoustrophedonFlattenBoardView(boustrophedonBoard);
+    SimpleGraph<Integer> graph = new SnakeAndLaddersGameGraph(board, 6);
+    GraphMethods finder = new GraphMethodsImpl();
+    return finder.leastSteps(graph, 0, board.length() - 1);
   }
 
-  static class FlattenBoardBuilderImpl implements FlattenBoardBuilder {
-
-    @Override
-    public FlattenBoard fromBoustrophedon(int[][] boustrophedonBoard) {
-      int n = boustrophedonBoard.length;
-      int max = n * n;
-      int[] straight = new int[max];
-
-      for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-          straight[i * n + j] = boustrophedonBoard[n - i - 1][i % 2 == 0 ? j : (n - j - 1)];
-        }
-      }
-
-      return new LinearBoardImpl(straight);
-    }
-
-  }
-
-  static interface FlattenBoard {
+  public static interface FlattenBoard {
 
     int length();
 
-    int get(int i);
-
-    int[] asArray();
-
+    int get(int index);
   }
 
-  static class LinearBoardImpl implements FlattenBoard {
+  public static class BoustrophedonFlattenBoardView implements FlattenBoard {
 
-    private final int[] straight;
+    private final int[][] boustrophedonBoard;
+    private final int length;
+    private final int n;
 
-    LinearBoardImpl(int[] straight) {
-      this.straight = straight;
+    public BoustrophedonFlattenBoardView(int[][] boustrophedonBoard) {
+      this.boustrophedonBoard = boustrophedonBoard;
+      this.n = boustrophedonBoard.length;
+      this.length = this.n * this.n;
     }
 
     @Override
     public int length() {
-      return straight.length;
+      return length;
     }
 
     @Override
-    public int get(int i) {
-      return straight[i];
-    }
-
-    @Override
-    public int[] asArray() {
-      return straight;
-    }
-  }
-
-  static interface Graph<T> {
-    Collection<T> childs(T node);
-  }
-
-  static class MapSetGraph<T> implements Graph<T> {
-
-    private final Map<T, Set<T>> index;
-
-    MapSetGraph(Map<T, Set<T>> index) {
-      this.index = index;
-    }
-
-    private final Set<T> empty = Collections.emptySet();
-
-    @Override
-    public Collection<T> childs(T node) {
-      return index.getOrDefault(node, empty);
-    }
-  }
-
-  static interface SnakeAndLaddersGraphBuilder {
-
-    default Graph<Integer> build(FlattenBoard board) {
-      return build(board, 6);
-    }
-
-    Graph<Integer> build(FlattenBoard board, int diceSidesCount);
-  }
-
-  static class AllPossibleTurnsSnakeAndLaddersGraphBuilder implements SnakeAndLaddersGraphBuilder {
-
-    @Override
-    public Graph<Integer> build(FlattenBoard board, int diceSidesCount) {
-      int[] bb = board.asArray();
-      Map<Integer, Set<Integer>> index = new TreeMap<>();
-      for (int i = 0; i < bb.length; i++) {
-        Set<Integer> cc = index.computeIfAbsent(i, c -> new TreeSet<>());
-        int mmax = Math.min(bb.length, i + 1 + diceSidesCount);
-        for (int x = i + 1; x < mmax; x++) {
-          int v = bb[x];
-          if (v < 0) {
-            cc.add(x);
-          } else {
-            if (v > board.length() || v < 1) {
-              throw new IllegalArgumentException("Snake or ladder index is out of bounds " + v);
-            }
-            cc.add(v - 1);
-          }
-        }
-
+    public int get(int index) {
+      int y = index / n;
+      int x = index % n;
+      if (y % 2 == 1) {
+        x = n - x - 1;
       }
-      return new MapSetGraph<>(index);
+      y = n - y - 1;
+      return boustrophedonBoard[y][x];
     }
+
   }
 
-  static interface ShortestPathFinder {
-    <T> int findShortestPath(Graph<T> graph, T startNode, T finishNode);
+  public static interface SimpleGraph<T> {
+    Collection<T> childs(T node);
+
+    boolean isTheSame(T node1, T node2);
+
+    int size();
   }
 
-  static class BfsShortestPathFinder implements ShortestPathFinder {
+  public static class SnakeAndLaddersGameGraph implements SimpleGraph<Integer> {
+
+    private final FlattenBoard board;
+    private final int diceSidesCount;
+
+    public SnakeAndLaddersGameGraph(FlattenBoard board, int diceSidesCount) {
+      this.board = board;
+      this.diceSidesCount = diceSidesCount;
+    }
 
     @Override
-    public <T> int findShortestPath(Graph<T> graph, T startNode, T finishNode) {
+    public Collection<Integer> childs(Integer node) {
+      Set<Integer> cc = new TreeSet<>();
+      int i = node.intValue();
+      int mmax = Math.min(board.length(), i + 1 + diceSidesCount);
+      for (int x = i + 1; x < mmax; x++) {
+        int v = board.get(x);
+        if (v < 0) {
+          cc.add(x);
+        } else {
+          if (v > board.length() || v < 1) {
+            throw new IllegalArgumentException("Snake or ladder index is out of bounds " + v);
+          }
+          cc.add(v - 1);
+        }
+      }
+      return cc;
+    }
+
+    @Override
+    public int size() {
+      return board.length();
+    }
+
+    @Override
+    public boolean isTheSame(Integer node1, Integer node2) {
+      return node1.intValue() == node2.intValue();
+    }
+
+  }
+
+  public static interface GraphMethods {
+
+    <T> int leastSteps(SimpleGraph<T> graph, T startNode, T finishNode);
+
+    <T> List<T> shortestPath(SimpleGraph<T> graph, T startNode, T finishNode);
+  }
+
+  public static class GraphMethodsImpl implements GraphMethods {
+
+    @Override
+    public <T> int leastSteps(SimpleGraph<T> graph, T startNode, T finishNode) {
       HashSet<T> visited = new HashSet<>();
       LinkedList<T> queue = new LinkedList<>();
       queue.addLast(startNode);
@@ -139,7 +121,7 @@ public class SnakesAndLadders {
         int sz = queue.size();
         for (int i = 0; i < sz; i++) {
           T node = queue.removeLast();
-          if (node.equals(finishNode)) {
+          if (graph.isTheSame(node, finishNode)) {
             return level;
           }
           for (T child : graph.childs(node)) {
@@ -152,16 +134,51 @@ public class SnakesAndLadders {
       }
       return -1;
     }
+
+    private static class Qe<T> {
+      final T node;
+      final Qe<T> prev;
+
+      private Qe(T node, Qe<T> prev) {
+        this.node = node;
+        this.prev = prev;
+      }
+
+      private Qe(T node) {
+        this.node = node;
+        this.prev = null;
+      }
+    }
+
+    @Override
+    public <T> List<T> shortestPath(SimpleGraph<T> graph, T startNode, T finishNode) {
+      HashSet<T> visited = new HashSet<>();
+      LinkedList<Qe<T>> queue = new LinkedList<>();
+      queue.addLast(new Qe<>(startNode));
+      while (!queue.isEmpty()) {
+        int sz = queue.size();
+        for (int i = 0; i < sz; i++) {
+          final Qe<T> qe = queue.removeLast();
+          if (graph.isTheSame(qe.node, finishNode)) {
+            // path found generating vector
+            LinkedList<T> result = new LinkedList<>();
+            Qe<T> qee = qe;
+            while (qee.prev != null) {
+              result.addFirst(qee.node);
+              qee = qee.prev;
+            }
+            result.addFirst(qee.node);
+            return result;
+          }
+          for (T child : graph.childs(qe.node)) {
+            if (visited.add(child)) {
+              queue.addFirst(new Qe<>(child, qe));
+            }
+          }
+        }
+      }
+      return null;
+    }
   }
 
-  public int snakesAndLadders(int[][] boustrophedonBoard) {
-    FlattenBoardBuilder boardBuilder = new FlattenBoardBuilderImpl();
-    FlattenBoard board = boardBuilder.fromBoustrophedon(boustrophedonBoard);
-
-    SnakeAndLaddersGraphBuilder graphBuilder = new AllPossibleTurnsSnakeAndLaddersGraphBuilder();
-    Graph<Integer> graph = graphBuilder.build(board);
-
-    ShortestPathFinder finder = new BfsShortestPathFinder();
-    return finder.findShortestPath(graph, 0, board.length() - 1);
-  }
 }
