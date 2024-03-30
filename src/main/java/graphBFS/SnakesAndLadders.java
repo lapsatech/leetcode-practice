@@ -1,11 +1,12 @@
 package graphBFS;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+
+import utils.GraphMethods;
+import utils.GraphMethodsImpl;
+import utils.SimpleGraph;
 
 public class SnakesAndLadders {
 
@@ -16,20 +17,20 @@ public class SnakesAndLadders {
     return finder.leastSteps(graph, 0, board.length() - 1);
   }
 
-  public static interface FlattenBoard {
+  private static interface FlattenBoard {
 
     int length();
 
     int get(int index);
   }
 
-  public static class BoustrophedonFlattenBoardView implements FlattenBoard {
+  private static class BoustrophedonFlattenBoardView implements FlattenBoard {
 
     private final int[][] boustrophedonBoard;
     private final int length;
     private final int n;
 
-    public BoustrophedonFlattenBoardView(int[][] boustrophedonBoard) {
+    private BoustrophedonFlattenBoardView(int[][] boustrophedonBoard) {
       this.boustrophedonBoard = boustrophedonBoard;
       this.n = boustrophedonBoard.length;
       this.length = this.n * this.n;
@@ -53,20 +54,12 @@ public class SnakesAndLadders {
 
   }
 
-  public static interface SimpleGraph<T> {
-    Collection<T> childs(T node);
-
-    boolean isTheSame(T node1, T node2);
-
-    int size();
-  }
-
-  public static class SnakeAndLaddersGameGraph implements SimpleGraph<Integer> {
+  private static class SnakeAndLaddersGameGraph implements SimpleGraph<Integer> {
 
     private final FlattenBoard board;
     private final int diceSidesCount;
 
-    public SnakeAndLaddersGameGraph(FlattenBoard board, int diceSidesCount) {
+    private SnakeAndLaddersGameGraph(FlattenBoard board, int diceSidesCount) {
       this.board = board;
       this.diceSidesCount = diceSidesCount;
     }
@@ -101,84 +94,4 @@ public class SnakesAndLadders {
     }
 
   }
-
-  public static interface GraphMethods {
-
-    <T> int leastSteps(SimpleGraph<T> graph, T startNode, T finishNode);
-
-    <T> List<T> shortestPath(SimpleGraph<T> graph, T startNode, T finishNode);
-  }
-
-  public static class GraphMethodsImpl implements GraphMethods {
-
-    @Override
-    public <T> int leastSteps(SimpleGraph<T> graph, T startNode, T finishNode) {
-      HashSet<T> visited = new HashSet<>();
-      LinkedList<T> queue = new LinkedList<>();
-      queue.addLast(startNode);
-      int level = 0;
-      while (!queue.isEmpty()) {
-        int sz = queue.size();
-        for (int i = 0; i < sz; i++) {
-          T node = queue.removeLast();
-          if (graph.isTheSame(node, finishNode)) {
-            return level;
-          }
-          for (T child : graph.childs(node)) {
-            if (visited.add(child)) {
-              queue.addFirst(child);
-            }
-          }
-        }
-        level++;
-      }
-      return -1;
-    }
-
-    private static class Qe<T> {
-      final T node;
-      final Qe<T> prev;
-
-      private Qe(T node, Qe<T> prev) {
-        this.node = node;
-        this.prev = prev;
-      }
-
-      private Qe(T node) {
-        this.node = node;
-        this.prev = null;
-      }
-    }
-
-    @Override
-    public <T> List<T> shortestPath(SimpleGraph<T> graph, T startNode, T finishNode) {
-      HashSet<T> visited = new HashSet<>();
-      LinkedList<Qe<T>> queue = new LinkedList<>();
-      queue.addLast(new Qe<>(startNode));
-      while (!queue.isEmpty()) {
-        int sz = queue.size();
-        for (int i = 0; i < sz; i++) {
-          final Qe<T> qe = queue.removeLast();
-          if (graph.isTheSame(qe.node, finishNode)) {
-            // path found generating vector
-            LinkedList<T> result = new LinkedList<>();
-            Qe<T> qee = qe;
-            while (qee.prev != null) {
-              result.addFirst(qee.node);
-              qee = qee.prev;
-            }
-            result.addFirst(qee.node);
-            return result;
-          }
-          for (T child : graph.childs(qe.node)) {
-            if (visited.add(child)) {
-              queue.addFirst(new Qe<>(child, qe));
-            }
-          }
-        }
-      }
-      return null;
-    }
-  }
-
 }
