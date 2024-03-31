@@ -2,9 +2,6 @@ package graphBFS
 
 import spock.lang.Specification
 import spock.lang.Unroll
-import utils.GraphMethods
-import utils.GraphMethodsImpl
-import utils.SimpleGraph
 
 class WordLadderTest extends Specification {
 
@@ -21,7 +18,7 @@ class WordLadderTest extends Specification {
 
     where:
     beginWord  | endWord    | wordList                              | expectResult
-    'hit'      | 'cog'      | ["hot","dot","dog","lot","log","cog"] | 5
+    'hit'      | 'cog'      | ["cog","dog","dot","hot","log","lot"] | 5
     'hit'      | 'cog'      | ["hot","dot","dog","lot","log"]       | 0
   }
 }

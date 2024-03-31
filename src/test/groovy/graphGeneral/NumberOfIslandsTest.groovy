@@ -37,6 +37,12 @@ class NumberOfIslandsTest extends Specification {
     then:
     num3 == expectedNum
 
+    when:
+    def num4 = subject.numIslandsSimpleGraph(ng)
+
+    then:
+    num4 == expectedNum
+
     where:
     grid                       | expectedNum
     [

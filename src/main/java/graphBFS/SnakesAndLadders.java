@@ -4,17 +4,16 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.TreeSet;
 
-import utils.GraphMethods;
-import utils.GraphMethodsImpl;
-import utils.SimpleGraph;
+import utils.graph.ShortestPathLength;
+import utils.graph.SimpleGraph;
 
 public class SnakesAndLadders {
 
   public int snakesAndLadders(int[][] boustrophedonBoard) {
     FlattenBoard board = new BoustrophedonFlattenBoardView(boustrophedonBoard);
     SimpleGraph<Integer> graph = new SnakeAndLaddersGameGraph(board, 6);
-    GraphMethods finder = new GraphMethodsImpl();
-    return finder.leastSteps(graph, 0, board.length() - 1);
+    ShortestPathLength finder = new ShortestPathLength();
+    return finder.findLength(graph, 0, board.length() - 1);
   }
 
   private static interface FlattenBoard {
@@ -81,11 +80,6 @@ public class SnakesAndLadders {
         }
       }
       return cc;
-    }
-
-    @Override
-    public int size() {
-      return board.length();
     }
 
     @Override

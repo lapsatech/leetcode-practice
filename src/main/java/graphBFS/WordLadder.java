@@ -1,78 +1,54 @@
 package graphBFS;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeMap;
-import java.util.function.Consumer;
+import java.util.TreeSet;
 
-import utils.GraphMethods;
-import utils.GraphMethodsImpl;
-import utils.SimpleGraph;
+import utils.graph.ShortestPathLength;
+import utils.graph.SimpleGraph;
 
 public class WordLadder {
 
   public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-    SimpleGraph<String> graph = new WordMutationPreindexedGraph(wordList);
-    GraphMethods util = new GraphMethodsImpl();
-    return util.leastSteps(graph, beginWord, endWord) + 1;
+    SimpleGraph<String> graph = buildWordMutationIndexGraph(wordList, beginWord);
+    ShortestPathLength util = new ShortestPathLength();
+    return util.findLength(graph, beginWord, endWord) + 1;
   }
 
-  private static class WordMutationPreindexedGraph implements SimpleGraph<String> {
+  private static SimpleGraph<String> buildWordMutationIndexGraph(List<String> wordList, String beginWord) {
+    TreeMap<String, TreeSet<String>> index = new TreeMap<>();
 
-    private Map<String, Collection<String>> index = new TreeMap<>();
-    private final int size;
+    ArrayList<String> cpy = new ArrayList<>(wordList);
+    cpy.add(beginWord);
 
-    private WordMutationPreindexedGraph(List<String> wordList) {
-      this.size = wordList.size();
-      for (String s : wordList) {
-        forEachMaskOf(s, mask -> {
-          Collection<String> cc1 = index.computeIfAbsent(mask, c -> new HashSet<>());
-          cc1.add(s);
-        });
-      }
-
-    }
-
-    private static void forEachMaskOf(String s, Consumer<String> back) {
+    final HashMap<String, HashSet<String>> preBuilt = new HashMap<>();
+    for (String s : cpy) {
       final char[] chars = s.toCharArray();
       final int len = s.length();
       for (int i = 0; i < len; i++) {
         char[] newChars = Arrays.copyOf(chars, len);
         newChars[i] = '*';
         String mask = new String(newChars).intern();
-        back.accept(mask);
+        HashSet<String> cc1 = preBuilt.computeIfAbsent(mask, c -> new HashSet<>());
+        cc1.add(s);
       }
     }
 
-    @Override
-    public Collection<String> childs(String s) {
-      HashSet<String> childs = new HashSet<>();
-      forEachMaskOf(s, mask -> {
-        if (s.equals(mask)) {
-          return;
-        }
-        Collection<String> candidates = index.get(mask);
-        if (candidates != null) {
-          childs.addAll(candidates);
-        }
-      });
-      childs.remove(s);
-      return childs;
+    for (HashSet<String> vv : preBuilt.values()) {
+      for (String v : vv) {
+        TreeSet<String> childs = index.computeIfAbsent(v, x -> new TreeSet<>());
+        childs.addAll(vv);
+        childs.remove(v);
+      }
     }
 
-    @Override
-    public boolean isTheSame(String word1, String word2) {
-      return word1.equals(word2);
-    }
-
-    @Override
-    public int size() {
-      return size;
-    }
+    return SimpleGraph.ofMap(index);
   }
 
   @SuppressWarnings("unused")
@@ -118,17 +94,6 @@ public class WordLadder {
       }
       return cc;
     }
-
-    @Override
-    public boolean isTheSame(String node1, String node2) {
-      return node1.equals(node2);
-    }
-
-    @Override
-    public int size() {
-      return wordList.size();
-    }
-
   }
 
 }

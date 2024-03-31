@@ -3,16 +3,15 @@ package graphBFS;
 import java.util.Collection;
 import java.util.HashSet;
 
-import utils.GraphMethods;
-import utils.GraphMethodsImpl;
-import utils.SimpleGraph;
+import utils.graph.ShortestPathLength;
+import utils.graph.SimpleGraph;
 
 public class MinimumGeneticMutation {
 
   public int minMutation(String startGene, String endGene, String[] bank) {
     SimpleGraph<String> graph = new GeneMutationGraph(bank);
-    GraphMethods util = new GraphMethodsImpl();
-    return util.leastSteps(graph, startGene, endGene);
+    ShortestPathLength util = new ShortestPathLength();
+    return util.findLength(graph, startGene, endGene);
   }
 
   private static class GeneMutationGraph implements SimpleGraph<String> {
@@ -51,17 +50,6 @@ public class MinimumGeneticMutation {
       }
       return cc;
     }
-
-    @Override
-    public boolean isTheSame(String node1, String node2) {
-      return node1.equals(node2);
-    }
-
-    @Override
-    public int size() {
-      return bank.length;
-    }
-
   }
 
 }
