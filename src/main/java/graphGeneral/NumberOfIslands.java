@@ -3,7 +3,6 @@ package graphGeneral;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.Objects;
 
 import utils.graph.SimpleGraph;
 import utils.graph.SimpleGraphTraverse;
@@ -144,9 +143,9 @@ public class NumberOfIslands {
     int m = grid.length;
     int n = grid[0].length;
 
-    SimpleGraph<Xy> graph = new IslandsGraph(m, n);
+    SimpleGraph<int[]> graph = new IslandsGraph(m, n);
     IslandsVisited visited = new IslandsVisited(m, n);
-    SimpleGraphTraverse traverse = SimpleGraphTraverse.bfs();
+    SimpleGraphTraverse traverse = SimpleGraphTraverse.dfsRecursive();
 
     int num = 0;
     for (int x = 0; x < m; x++) {
@@ -156,11 +155,11 @@ public class NumberOfIslands {
         }
         if (grid[x][y] == '1') {
           num++;
-          traverse.traverse(graph, new Xy(x, y), xy -> {
-            if (!visited.visit(xy.x, xy.y)) {
+          traverse.traverse(graph, new int[] { x, y }, xy -> {
+            if (!visited.visit(xy[0], xy[1])) {
               return false;
             }
-            if (grid[xy.x][xy.y] == '0') {
+            if (grid[xy[0]][xy[1]] == '0') {
               return false;
             }
             return true;
@@ -196,33 +195,7 @@ public class NumberOfIslands {
 
   }
 
-  static class Xy {
-    final int x, y;
-
-    public Xy(int x, int y) {
-      this.x = x;
-      this.y = y;
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(x, y);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-      if (this == obj)
-        return true;
-      if (obj == null)
-        return false;
-      if (getClass() != obj.getClass())
-        return false;
-      Xy other = (Xy) obj;
-      return x == other.x && y == other.y;
-    }
-  }
-
-  static class IslandsGraph implements SimpleGraph<Xy> {
+  static class IslandsGraph implements SimpleGraph<int[]> {
 
     private final int m;
     private final int n;
@@ -233,28 +206,31 @@ public class NumberOfIslands {
     }
 
     @Override
-    public Collection<Xy> childs(Xy xy) {
-      ArrayList<Xy> childs = new ArrayList<>(4);
+    public Collection<int[]> childs(int[] xy) {
+      ArrayList<int[]> childs = new ArrayList<>(4);
 
-      if (xy.x + 1 < m) {
-        childs.add(new Xy(xy.x + 1, xy.y));
+      if (xy[0] + 1 < m) {
+        childs.add(new int[] { xy[0] + 1, xy[1] });
       }
-      if (xy.x > 0) {
-        childs.add(new Xy(xy.x - 1, xy.y));
+      if (xy[0] > 0) {
+        childs.add(new int[] { xy[0] - 1, xy[1] });
       }
-      if (xy.y + 1 < n) {
-        childs.add(new Xy(xy.x, xy.y + 1));
+      if (xy[1] + 1 < n) {
+        childs.add(new int[] { xy[0], xy[1] + 1 });
       }
-      if (xy.y > 0) {
-        childs.add(new Xy(xy.x, xy.y - 1));
+      if (xy[1] > 0) {
+        childs.add(new int[] { xy[0], xy[1] - 1 });
       }
 
       return childs;
     }
 
     @Override
-    public boolean isTheSame(Xy xy1, Xy xy2) {
-      return xy1.x == xy2.x && xy1.y == xy2.y;
+    public boolean isTheSame(int[] xy1, int[] xy2) {
+      return xy1.length == 2
+          && xy2.length == 2
+          && xy1[0] == xy2[0]
+          && xy1[1] == xy2[1];
     }
 
   }

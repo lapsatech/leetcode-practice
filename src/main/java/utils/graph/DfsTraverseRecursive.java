@@ -1,6 +1,5 @@
 package utils.graph;
 
-import java.util.HashSet;
 import java.util.function.Predicate;
 
 class DfsTraverseRecursive implements SimpleGraphTraverse {
@@ -12,16 +11,15 @@ class DfsTraverseRecursive implements SimpleGraphTraverse {
 
   @Override
   public <T> void traverse(SimpleGraph<T> graph, T startNode, Predicate<T> visitor) {
-    HashSet<T> visited = new HashSet<>();
-    helper(graph, startNode, visited, visitor);
+    if (visitor.test(startNode)) {
+      helper(graph, startNode, visitor);
+    }
   }
 
-  public <T> void helper(SimpleGraph<T> graph, T node, HashSet<T> visited, Predicate<T> visitor) {
-    if (visitor.test(node)) {
-      for (T child : graph.childs(node)) {
-        if (visited.add(child)) {
-          helper(graph, child, visited, visitor);
-        }
+  public <T> void helper(SimpleGraph<T> graph, T node, Predicate<T> visitor) {
+    for (T child : graph.childs(node)) {
+      if (visitor.test(child)) {
+        helper(graph, child, visitor);
       }
     }
   }

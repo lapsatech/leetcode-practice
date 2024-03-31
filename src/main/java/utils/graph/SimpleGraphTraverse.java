@@ -1,5 +1,6 @@
 package utils.graph;
 
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public interface SimpleGraphTraverse {
@@ -17,5 +18,9 @@ public interface SimpleGraphTraverse {
   }
 
   <T> void traverse(SimpleGraph<T> graph, T startNode, Predicate<T> visitor);
+
+  default <T> void traverse(SimpleGraph<T> graph, T startNode, Consumer<T> visitor) {
+    traverse(graph, startNode, new VisitOnceVisitor<>(visitor));
+  }
 
 }
