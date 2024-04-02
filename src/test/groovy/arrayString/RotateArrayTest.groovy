@@ -9,13 +9,20 @@ class RotateArrayTest extends Specification {
   def 'test'(def input, def k, def expectAry) {
     given:
     def s = new RotateArray()
-    int[] ary = input as int[]
 
     when:
-    s.rotate(ary, k)
+    int[] ary1 = input as int[]
+    s.rotate(ary1, k)
 
     then:
-    ary == expectAry as int[]
+    ary1 == expectAry as int[]
+
+    when:
+    int[] ary2 = input as int[]
+    s.rotateSorting(ary2, k)
+
+    then:
+    ary2 == expectAry as int[]
 
     where:
     input                         | k     | expectAry
