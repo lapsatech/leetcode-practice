@@ -1,11 +1,6 @@
 package arrayString;
 
-import static java.util.Arrays.asList;
-
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -73,15 +68,15 @@ public class InsertDeleteGetRandomO1Test {
 
     Assertions.assertEquals(getRandomTestRequestsCount, sum);
 
-    ArrayList<Integer> randomsSorted = new ArrayList<>(stats.keySet());
-    randomsSorted.sort(Integer::compareTo);
-
-    List<Integer> expectOnlyRandomsSorted = IntStream.of(expectOnlyRandoms)
-        .boxed()
+    int[] randomsSorted = stats.keySet()
+        .stream()
+        .mapToInt(Integer::intValue)
         .sorted()
-        .collect(Collectors.toList());
+        .toArray();
 
-    Assertions.assertIterableEquals(expectOnlyRandomsSorted, randomsSorted);
+    Arrays.sort(expectOnlyRandoms);
+
+    Assertions.assertArrayEquals(expectOnlyRandoms, randomsSorted);
 
     final int avg = getRandomTestRequestsCount / stats.size();
     final double allowedDelta = avg * randomValuesProbabilityTreshold;
