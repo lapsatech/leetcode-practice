@@ -3,13 +3,13 @@ package matrix;
 public class ValidSudoku {
 
   public boolean isValidSudoku(char[][] board) {
-    for (int i = 0; i < 9; i++) {
+    for (int i1 = 0; i1 < 9; i1++) {
       boolean[] byCols = new boolean[9];
       boolean[] byRows = new boolean[9];
       boolean[] bySquares = new boolean[9];
-      for (int j = 0; j < 9; j++) {
+      for (int i2 = 0; i2 < 9; i2++) {
 
-        int d = idxOfRow(board, i, j);
+        int d = idxOfRow(board, i1, i2);
         if (d > 0) {
           if (byRows[d - 1]) {
             return false;
@@ -17,7 +17,7 @@ public class ValidSudoku {
           byRows[d - 1] = true;
         }
 
-        d = idxOfCol(board, i, j);
+        d = idxOfCol(board, i1, i2);
         if (d > 0) {
           if (byCols[d - 1]) {
             return false;
@@ -25,7 +25,7 @@ public class ValidSudoku {
           byCols[d - 1] = true;
         }
 
-        d = idxOfSquare(board, i, j);
+        d = idxOfSquare(board, i1, i2);
         if (d > 0) {
           if (bySquares[d - 1]) {
             return false;
@@ -37,23 +37,23 @@ public class ValidSudoku {
     return true;
   }
 
-  private static int idxOfRow(char[][] board, int i, int j) {
+  private static int idxOfRow(char[][] board, int i1, int i2) {
+    return board[i1][i2] == '.'
+        ? -1
+        : board[i1][i2] - 48;
+  }
+
+  private static int idxOfCol(char[][] board, int i1, int i2) {
+    return board[i2][i1] == '.'
+        ? -1
+        : board[i2][i1] - 48;
+  }
+
+  private static int idxOfSquare(char[][] board, int i1, int i2) {
+    int i = (((int) i1 / 3) * 3) + ((int) i2 / 3);
+    int j = (((int) i1 % 3) * 3) + ((int) i2 % 3);
     return board[i][j] == '.'
         ? -1
         : board[i][j] - 48;
-  }
-
-  private static int idxOfCol(char[][] board, int i, int j) {
-    return board[j][i] == '.'
-        ? -1
-        : board[j][i] - 48;
-  }
-
-  private static int idxOfSquare(char[][] board, int i, int j) {
-    int sqi = (((int) i / 3) * 3) + ((int) j / 3);
-    int sqj = (((int) i % 3) * 3) + ((int) j % 3);
-    return board[sqi][sqj] == '.'
-        ? -1
-        : board[sqi][sqj] - 48;
   }
 }

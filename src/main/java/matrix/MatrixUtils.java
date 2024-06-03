@@ -1,10 +1,15 @@
 package matrix;
 
 import java.util.Collections;
+import java.util.function.Consumer;
 
 public class MatrixUtils {
 
   public static void dumpMatrix(int[][] matrix) {
+    dumpMatrix(matrix, System.out::print);
+  }
+
+  public static void dumpMatrix(int[][] matrix, Consumer<String> printer) {
     int maxValue = 0;
     int maxCols = 0;
     for (int i = 0; i < matrix.length; i++) {
@@ -20,19 +25,19 @@ public class MatrixUtils {
     int rowNumLength = 1;
     for (; Math.pow(10, rowNumLength) <= matrix.length; rowNumLength++) {
     }
-  
-    System.out.print(String.join("", Collections.nCopies(rowNumLength, " ")) + "   ");
+
+    printer.accept(String.join("", Collections.nCopies(rowNumLength, " ")) + "   ");
     for (int c = 0; c < maxCols; c++) {
-      System.out.print(String.format("%" + colLength + "d", c) + " ");
+      printer.accept(String.format("%" + colLength + "d", c) + " ");
     }
-    System.out.println();
-  
+    printer.accept(System.lineSeparator());
+
     for (int i = 0; i < matrix.length; i++) {
-      System.out.print(String.format("%" + rowNumLength + "d", i) + " : ");
+      printer.accept(String.format("%" + rowNumLength + "d", i) + " : ");
       for (int j = 0; j < matrix[i].length; j++) {
-        System.out.print(String.format("%" + colLength + "d", matrix[i][j]) + " ");
+        printer.accept(String.format("%" + colLength + "d", matrix[i][j]) + " ");
       }
-      System.out.println();
+      printer.accept(System.lineSeparator());
     }
   }
 

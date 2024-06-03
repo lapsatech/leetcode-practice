@@ -18,41 +18,53 @@ public class SpiralMatrix {
     int n = matrix.length;
     int m = matrix[0].length;
 
-    int i = 0, x = 0, y = 0, level = 0;
+    int i = 0, x = 0, y = 0, depth = 0;
     Dir dir = Dir.RIGHT;
 
     int[] res = new int[m * n];
 
     while (i < res.length) {
-      res[i] = matrix[y][x];
+
       switch (dir) {
       case RIGHT:
-        if (x == m - 1 - level) {
+        if (x == m - 1 - depth) {
           dir = Dir.DOWN;
           continue;
         }
-        x++;
         break;
       case DOWN:
-        if (y == n - 1 - level) {
+        if (y == n - 1 - depth) {
           dir = Dir.LEFT;
           continue;
         }
-        y++;
         break;
       case LEFT:
-        if (x == level) {
+        if (x == depth) {
           dir = Dir.UP;
           continue;
         }
+        break;
+      case UP:
+        if (y - 1 == depth) {
+          dir = Dir.RIGHT;
+          depth++;
+          continue;
+        }
+        break;
+      }
+
+      res[i] = matrix[y][x];
+      switch (dir) {
+      case RIGHT:
+        x++;
+        break;
+      case DOWN:
+        y++;
+        break;
+      case LEFT:
         x--;
         break;
       case UP:
-        if (y - 1 == level) {
-          dir = Dir.RIGHT;
-          level++;
-          continue;
-        }
         y--;
         break;
       }
@@ -69,8 +81,8 @@ public class SpiralMatrix {
         new int[] { 8, 9, 4 },
         new int[] { 7, 6, 5 }
     };
-    MatrixUtils.dumpMatrix(ary);
-    Arrays.toString(s.spiralOrderAry(ary));
+    MatrixUtils.dumpMatrix(ary, System.out::print);
+    System.out.println(Arrays.toString(s.spiralOrderAry(ary)));
   }
 
 }
