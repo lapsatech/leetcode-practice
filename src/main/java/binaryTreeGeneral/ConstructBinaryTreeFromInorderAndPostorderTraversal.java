@@ -3,11 +3,11 @@ package binaryTreeGeneral;
 import java.util.HashMap;
 import java.util.Map;
 
-import models.binaryTree.BinaryTreeNode;
+import models.binaryTree.TreeNode;
 
 public class ConstructBinaryTreeFromInorderAndPostorderTraversal {
 
-  public BinaryTreeNode buildTree(int[] inorder, int[] postorder) {
+  public TreeNode buildTree(int[] inorder, int[] postorder) {
     Map<Integer, Integer> inorderIndex = new HashMap<>();
     for (int i = 0; i < inorder.length; i++) {
       inorderIndex.put(inorder[i], i);
@@ -20,7 +20,7 @@ public class ConstructBinaryTreeFromInorderAndPostorderTraversal {
         0);
   }
 
-  private BinaryTreeNode splitAndBuild(
+  private TreeNode splitAndBuild(
       Map<Integer, Integer> inorderIndex,
       int[] postorder,
       int leftBoundary,
@@ -34,11 +34,11 @@ public class ConstructBinaryTreeFromInorderAndPostorderTraversal {
     int val = postorder[rightBoundary];
 
     if (leftBoundary == rightBoundary) {
-      return new BinaryTreeNode(val);
+      return new TreeNode(val);
     }
 
     int index = inorderIndex.get(val).intValue();
-    return new BinaryTreeNode(
+    return new TreeNode(
         val,
         splitAndBuild(
             inorderIndex,

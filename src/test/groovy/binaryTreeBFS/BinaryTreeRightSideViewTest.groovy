@@ -1,6 +1,6 @@
 package binaryTreeBFS
 
-import models.binaryTree.BinaryTreeNode
+import models.binaryTree.TreeNode
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -10,7 +10,7 @@ class BinaryTreeRightSideViewTest extends Specification {
   def 'test'(def treeDef, def expectRightView) {
     given:
     def subject = new BinaryTreeRightSideView();
-    def root = BinaryTreeNode.ofList(treeDef)
+    def root = TreeNode.ofList(treeDef)
 
     when:
     def res = subject.rightSideView(root)

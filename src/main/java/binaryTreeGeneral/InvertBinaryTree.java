@@ -1,18 +1,18 @@
 package binaryTreeGeneral;
 
-import models.binaryTree.BinaryTreeNode;
+import models.binaryTree.TreeNode;
 
 public class InvertBinaryTree {
 
-  public BinaryTreeNode invertTree(BinaryTreeNode root) {
+  public TreeNode invertTree(TreeNode root) {
     return invertTreeRecursive(root);
   }
 
-  public BinaryTreeNode invertTreeRecursive(BinaryTreeNode root) {
+  public TreeNode invertTreeRecursive(TreeNode root) {
     if (root == null) {
       return null;
     }
-    return new BinaryTreeNode(root.val, invertTreeRecursive(root.right), invertTreeRecursive(root.left));
+    return new TreeNode(root.val, invertTreeRecursive(root.right), invertTreeRecursive(root.left));
   }
 
 }

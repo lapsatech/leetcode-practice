@@ -1,6 +1,6 @@
 package binaryTreeGeneral
 
-import models.binaryTree.BinaryTreeNode
+import models.binaryTree.TreeNode
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -10,10 +10,10 @@ class LowestCommonAncestorOfABinaryTreeTest extends Specification {
   def 'test'(def treeDef, def p, def q, def expect) {
     given:
     def subject = new LowestCommonAncestorOfABinaryTree();
-    def root = BinaryTreeNode.ofList(treeDef)
+    def root = TreeNode.ofList(treeDef)
 
     when:
-    def resultNode = subject.lowestCommonAncestor(root, new BinaryTreeNode(p), new BinaryTreeNode(q))
+    def resultNode = subject.lowestCommonAncestor(root, new TreeNode(p), new TreeNode(q))
     def result = resultNode == null ? null : resultNode.val
 
     then:

@@ -3,28 +3,28 @@ package binaryTreeGeneral;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import models.binaryTree.BinaryTreeNode;
+import models.binaryTree.TreeNode;
 
 public class MaximumDepthOfBinaryTree {
 
-  public int maxDepth(BinaryTreeNode root) {
+  public int maxDepth(TreeNode root) {
      return maxDepthVisitor(root);
   }
 
-  public int maxDepthRecurrent(BinaryTreeNode root) {
+  public int maxDepthRecurrent(TreeNode root) {
     if (root == null) {
       return 0;
     }
     return 1 + Math.max(maxDepthRecurrent(root.left), maxDepthRecurrent(root.right));
   }
 
-  public int maxDepthVisitor(BinaryTreeNode root) {
+  public int maxDepthVisitor(TreeNode root) {
     if (root == null) {
       return 0;
     }
 
     int height = 0;
-    Queue<BinaryTreeNode> q = new LinkedList<>();
+    Queue<TreeNode> q = new LinkedList<>();
     q.add(root);
 
     while (!q.isEmpty()) {
@@ -33,7 +33,7 @@ public class MaximumDepthOfBinaryTree {
       int size = q.size();
 
       for (int i = 0; i < size; i++) {
-        BinaryTreeNode temp = q.remove();
+        TreeNode temp = q.remove();
 
         if (temp.left != null) {
           q.add(temp.left);

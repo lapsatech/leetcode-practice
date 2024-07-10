@@ -1,6 +1,6 @@
 package binaryTreeGeneral
 
-import models.binaryTree.BinaryTreeNode
+import models.binaryTree.TreeNode
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -10,11 +10,11 @@ class FlattenBinaryTreeToLinkedListTest extends Specification {
   def 'test'(def treeDef, def expectTreeDef) {
     given:
     def subject = new FlattenBinaryTreeToLinkedList();
-    def root = BinaryTreeNode.ofList(treeDef)
+    def root = TreeNode.ofList(treeDef)
 
     when:
     subject.flatten(root)
-    def resultTreeDef = BinaryTreeNode.toList(root)
+    def resultTreeDef = TreeNode.toList(root)
 
     then:
     resultTreeDef == expectTreeDef

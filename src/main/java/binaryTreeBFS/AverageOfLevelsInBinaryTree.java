@@ -5,16 +5,16 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
-import models.binaryTree.BinaryTreeNode;
+import models.binaryTree.TreeNode;
 
 public class AverageOfLevelsInBinaryTree {
 
-  public List<Double> averageOfLevels(BinaryTreeNode root) {
+  public List<Double> averageOfLevels(TreeNode root) {
     if (root == null) {
       throw new IllegalArgumentException();
     }
     List<Double> result = new ArrayList<>();
-    Deque<BinaryTreeNode> queue = new LinkedList<>();
+    Deque<TreeNode> queue = new LinkedList<>();
 
     queue.addFirst(root);
 
@@ -22,7 +22,7 @@ public class AverageOfLevelsInBinaryTree {
       long lsum = 0;
       int lcount = queue.size();
       for (int i = 0; i < lcount; i++) {
-        BinaryTreeNode t = queue.removeLast();
+        TreeNode t = queue.removeLast();
         lsum += t.val;
         if (t.left != null) {
           queue.addFirst(t.left);

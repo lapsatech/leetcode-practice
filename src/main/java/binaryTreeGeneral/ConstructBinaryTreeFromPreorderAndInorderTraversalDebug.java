@@ -2,11 +2,11 @@ package binaryTreeGeneral;
 
 import java.util.Collections;
 
-import models.binaryTree.BinaryTreeNode;
+import models.binaryTree.TreeNode;
 
 public class ConstructBinaryTreeFromPreorderAndInorderTraversalDebug {
 
-  public BinaryTreeNode buildTree(int[] preorder, int[] inorder) {
+  public TreeNode buildTree(int[] preorder, int[] inorder) {
     return buildSubtree(0, preorder, 0, preorder.length - 1, inorder, 0, inorder.length - 1);
   }
 
@@ -33,7 +33,7 @@ public class ConstructBinaryTreeFromPreorderAndInorderTraversalDebug {
     return sb.toString();
   }
 
-  private BinaryTreeNode buildSubtree(
+  private TreeNode buildSubtree(
       int lvl,
       int[] preorder,
       int p_start,
@@ -53,7 +53,7 @@ public class ConstructBinaryTreeFromPreorderAndInorderTraversalDebug {
       return null;
     }
 
-    BinaryTreeNode n = new BinaryTreeNode(preorder[p_start]);
+    TreeNode n = new TreeNode(preorder[p_start]);
     if (p_start == p_end) {
       return n;
     }

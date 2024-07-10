@@ -3,16 +3,16 @@ package binaryTreeGeneral;
 import java.util.Deque;
 import java.util.LinkedList;
 
-import models.binaryTree.BinaryTreeNode;
+import models.binaryTree.TreeNode;
 
 public class BinarySearchTreeIterator {
 
   static class BSTIterator {
 
-    private Deque<BinaryTreeNode> lifo = new LinkedList<>();
-    private BinaryTreeNode node;
+    private Deque<TreeNode> lifo = new LinkedList<>();
+    private TreeNode node;
 
-    public BSTIterator(BinaryTreeNode root) {
+    public BSTIterator(TreeNode root) {
       this.node = root;
     }
 
@@ -22,7 +22,7 @@ public class BinarySearchTreeIterator {
           lifo.push(node);
           node = node.left;
         } else {
-          BinaryTreeNode visit = lifo.pop();
+          TreeNode visit = lifo.pop();
           node = visit.right;
           return visit.val;
         }

@@ -4,26 +4,26 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.StringJoiner;
 
-public class BinaryTreeNode extends Node<BinaryTreeNode> {
+public class TreeNode extends Node<TreeNode> {
 
-  public static BinaryTreeNode ofList(List<Integer> asList) {
-    return ofList(asList, BinaryTreeNode::new, BinaryTreeNode[]::new);
+  public static TreeNode ofList(List<Integer> asList) {
+    return ofList(asList, TreeNode::new, TreeNode[]::new);
   }
 
-  public BinaryTreeNode() {
+  public TreeNode() {
     super();
   }
 
-  public BinaryTreeNode(int val, BinaryTreeNode left, BinaryTreeNode right) {
+  public TreeNode(int val, TreeNode left, TreeNode right) {
     super(val, left, right);
   }
 
-  public BinaryTreeNode(int val) {
+  public TreeNode(int val) {
     super(val);
   }
 
   public static void main(String[] args) {
-    BinaryTreeNode root = ofList(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
+    TreeNode root = ofList(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
 
     System.out.println("original");
     System.out.println(root.toString());
