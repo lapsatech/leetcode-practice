@@ -1,6 +1,6 @@
 package binaryTreeGeneral
 
-import models.binaryTree.TreeNode
+import models.binaryTree.BinaryTreeNode
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -10,7 +10,7 @@ class MaximumDepthOfBinaryTreeTest extends Specification {
   def 'test'(def treeDef, def expectedMaxDepth) {
     given:
     def subject = new MaximumDepthOfBinaryTree();
-    def root = TreeNode.ofList(treeDef)
+    def root = BinaryTreeNode.ofList(treeDef)
 
     when:
     def res = subject.maxDepth(root)

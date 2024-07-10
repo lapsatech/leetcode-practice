@@ -4,29 +4,30 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.StringJoiner;
 
-public class TreeNode extends ATreeNode<TreeNode> {
+public class BinaryTreeNode extends Node<BinaryTreeNode> {
 
-  public static TreeNode ofList(List<Integer> asList) {
-    return ATreeNode.ofList(asList, TreeNode::new, TreeNode[]::new);
+  public static BinaryTreeNode ofList(List<Integer> asList) {
+    return ofList(asList, BinaryTreeNode::new, BinaryTreeNode[]::new);
   }
 
-  public TreeNode() {
+  public BinaryTreeNode() {
     super();
   }
 
-  public TreeNode(int val, TreeNode left, TreeNode right) {
+  public BinaryTreeNode(int val, BinaryTreeNode left, BinaryTreeNode right) {
     super(val, left, right);
   }
 
-  public TreeNode(int val) {
+  public BinaryTreeNode(int val) {
     super(val);
   }
 
   public static void main(String[] args) {
-    TreeNode root = TreeNode.ofList(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
+    BinaryTreeNode root = ofList(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
 
     System.out.println("original");
     System.out.println(root.toString());
+
     StringJoiner preorder = new StringJoiner(", ", "[", "]");
     preorder(root, i -> preorder.add(String.valueOf(i.val)));
     System.out.println("preorder");
@@ -34,7 +35,7 @@ public class TreeNode extends ATreeNode<TreeNode> {
 
     StringJoiner iterativePreorder = new StringJoiner(", ", "[", "]");
     iterativePreorder(root, i -> iterativePreorder.add(String.valueOf(i.val)));
-    System.out.println("iterativePreorder");
+    System.out.println("iterative preorder");
     System.out.println(iterativePreorder.toString());
 
     StringJoiner inorder = new StringJoiner(", ", "[", "]");
@@ -42,10 +43,10 @@ public class TreeNode extends ATreeNode<TreeNode> {
     System.out.println("inorder");
     System.out.println(inorder.toString());
 
-    StringJoiner inorderStack = new StringJoiner(", ", "[", "]");
-    iterativeInorder(root, i -> inorderStack.add(String.valueOf(i.val)));
-    System.out.println("inorder stack");
-    System.out.println(inorderStack.toString());
+    StringJoiner iterativeInorder = new StringJoiner(", ", "[", "]");
+    iterativeInorder(root, i -> iterativeInorder.add(String.valueOf(i.val)));
+    System.out.println("iterative inorder");
+    System.out.println(iterativeInorder.toString());
 
     StringJoiner postorder = new StringJoiner(", ", "[", "]");
     postorder(root, i -> postorder.add(String.valueOf(i.val)));
@@ -54,7 +55,7 @@ public class TreeNode extends ATreeNode<TreeNode> {
 
     StringJoiner iterativePostorder = new StringJoiner(", ", "[", "]");
     iterativePostorder(root, i -> iterativePostorder.add(String.valueOf(i.val)));
-    System.out.println("iterativePostorder");
+    System.out.println("iterative postorder");
     System.out.println(iterativePostorder.toString());
   }
 

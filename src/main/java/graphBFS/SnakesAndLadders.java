@@ -4,17 +4,10 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.TreeSet;
 
-import utils.graph.ShortestPathLength;
-import utils.graph.SimpleGraph;
+import utils.graph.Graph;
+import utils.graph.Graphs;
 
 public class SnakesAndLadders {
-
-  public int snakesAndLadders(int[][] boustrophedonBoard) {
-    FlattenBoard board = new BoustrophedonFlattenBoardView(boustrophedonBoard);
-    SimpleGraph<Integer> graph = new SnakeAndLaddersGameGraph(board, 6);
-    ShortestPathLength finder = new ShortestPathLength();
-    return finder.findLength(graph, 0, board.length() - 1);
-  }
 
   private static interface FlattenBoard {
 
@@ -53,7 +46,7 @@ public class SnakesAndLadders {
 
   }
 
-  private static class SnakeAndLaddersGameGraph implements SimpleGraph<Integer> {
+  private static class SnakeAndLaddersGameGraph implements Graph<Integer> {
 
     private final FlattenBoard board;
     private final int diceSidesCount;
@@ -87,5 +80,17 @@ public class SnakesAndLadders {
       return node1.intValue() == node2.intValue();
     }
 
+  }
+
+  public int snakesAndLadders(int[][] boustrophedonBoard) {
+    FlattenBoard board = new BoustrophedonFlattenBoardView(boustrophedonBoard);
+    Graph<Integer> graph = new SnakeAndLaddersGameGraph(board, 6);
+    return Graphs.shortestPathLength(graph, 0, board.length() - 1);
+  }
+
+  public int[] snakesAndLaddersPath(int[][] boustrophedonBoard) {
+    FlattenBoard board = new BoustrophedonFlattenBoardView(boustrophedonBoard);
+    Graph<Integer> graph = new SnakeAndLaddersGameGraph(board, 6);
+    return Graphs.shortestPath(graph, 0, board.length() - 1).stream().mapToInt(Integer::intValue).toArray();
   }
 }

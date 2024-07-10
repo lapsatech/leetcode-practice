@@ -1,11 +1,11 @@
 package binaryTreeGeneral;
 
-import models.binaryTree.TreeNode;
+import models.binaryTree.BinaryTreeNode;
 
 public class CountCompleteTreeNodes {
 
-  private int leftHeight(TreeNode root) {
-    TreeNode temp;
+  private int leftHeight(BinaryTreeNode root) {
+    BinaryTreeNode temp;
 
     temp = root;
     int height = 0;
@@ -16,8 +16,8 @@ public class CountCompleteTreeNodes {
     return height;
   }
 
-  private int rightHeight(TreeNode root) {
-    TreeNode temp;
+  private int rightHeight(BinaryTreeNode root) {
+    BinaryTreeNode temp;
 
     temp = root;
     int height = 0;
@@ -28,7 +28,7 @@ public class CountCompleteTreeNodes {
     return height;
   }
 
-  public int countNodes(TreeNode root) {
+  public int countNodes(BinaryTreeNode root) {
     if (root == null) {
       return 0;
     }

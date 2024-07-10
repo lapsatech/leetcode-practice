@@ -3,24 +3,24 @@ package binaryTreeGeneral;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import models.binaryTree.TreeNode;
+import models.binaryTree.BinaryTreeNode;
 
 public class SymmetricTree {
 
-  public boolean isSymmetric(TreeNode root) {
+  public boolean isSymmetric(BinaryTreeNode root) {
     if (root == null) {
       return true;
     }
 
-    Queue<TreeNode> lQ = new LinkedList<>();
-    Queue<TreeNode> rQ = new LinkedList<>();
+    Queue<BinaryTreeNode> lQ = new LinkedList<>();
+    Queue<BinaryTreeNode> rQ = new LinkedList<>();
 
     lQ.add(root.left);
     rQ.add(root.right);
 
     while (!lQ.isEmpty() && !rQ.isEmpty()) {
-      TreeNode l = lQ.remove();
-      TreeNode r = rQ.remove();
+      BinaryTreeNode l = lQ.remove();
+      BinaryTreeNode r = rQ.remove();
 
       if (l == null && r == null) {
         continue;

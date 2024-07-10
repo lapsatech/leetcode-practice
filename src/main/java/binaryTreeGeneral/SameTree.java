@@ -2,11 +2,11 @@ package binaryTreeGeneral;
 
 import java.util.LinkedList;
 
-import models.binaryTree.TreeNode;
+import models.binaryTree.BinaryTreeNode;
 
 public class SameTree {
 
-  public boolean isSameTreeRecurrent(TreeNode p, TreeNode q) {
+  public boolean isSameTreeRecurrent(BinaryTreeNode p, BinaryTreeNode q) {
     if (p == null && q == null) {
       return true;
     }
@@ -18,13 +18,13 @@ public class SameTree {
         && isSameTreeRecurrent(p.right, q.right);
   }
 
-  public boolean isSameTree(TreeNode p, TreeNode q) {
+  public boolean isSameTree(BinaryTreeNode p, BinaryTreeNode q) {
     return isSameTreeRecurrent(p, q);
   }
 
-  public boolean isSameTreeVisitor(TreeNode p, TreeNode q) {
-    LinkedList<TreeNode> qQ = new LinkedList<>();
-    LinkedList<TreeNode> pQ = new LinkedList<>();
+  public boolean isSameTreeVisitor(BinaryTreeNode p, BinaryTreeNode q) {
+    LinkedList<BinaryTreeNode> qQ = new LinkedList<>();
+    LinkedList<BinaryTreeNode> pQ = new LinkedList<>();
 
     qQ.add(q);
     pQ.add(p);

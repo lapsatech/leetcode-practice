@@ -5,33 +5,33 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import models.binaryTree.TreeNode;
+import models.binaryTree.BinaryTreeNode;
 
 public class BinaryTreeRightSideView {
-  public List<Integer> rightSideView(TreeNode root) {
+  public List<Integer> rightSideView(BinaryTreeNode root) {
     if (root == null) {
       return Collections.emptyList();
     }
     List<Integer> result = new ArrayList<>();
-    LinkedList<TreeNode> q = new LinkedList<>();
+    LinkedList<BinaryTreeNode> fifo = new LinkedList<>();
 
-    q.add(root);
+    fifo.addFirst(root);
 
-    while (!q.isEmpty()) {
-      int lcount = q.size();
+    while (!fifo.isEmpty()) {
+      int lcount = fifo.size();
 
-      TreeNode mostRight = null;
+      BinaryTreeNode mostRight = null;
       for (int i = 0; i < lcount; i++) {
-        TreeNode t = q.removeLast();
+        BinaryTreeNode t = fifo.removeLast();
         if (mostRight == null) {
           mostRight = t;
         }
 
         if (t.right != null) {
-          q.addFirst(t.right);
+          fifo.addFirst(t.right);
         }
         if (t.left != null) {
-          q.addFirst(t.left);
+          fifo.addFirst(t.left);
         }
       }
       result.add(mostRight.val);

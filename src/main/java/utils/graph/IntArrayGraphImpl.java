@@ -1,20 +1,19 @@
 package utils.graph;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class IntArraySimpleGraph implements SimpleGraph<Integer> {
+public class IntArrayGraphImpl implements IntArrayGraph {
 
   private final int[][] index;
 
-  IntArraySimpleGraph(int[][] index) {
+  IntArrayGraphImpl(int[][] index) {
     this.index = index;
   }
 
   @Override
-  public Collection<Integer> childs(Integer node) {
+  public Iterable<Integer> childs(Integer node) {
     final int n = node.intValue();
     if (n < 0 || n >= index.length) {
       throw new IllegalArgumentException("Out of bounds");
@@ -36,6 +35,7 @@ public class IntArraySimpleGraph implements SimpleGraph<Integer> {
 
   private static final int[] EMPTY = new int[] {};
 
+  @Override
   public int[] childsAsIntArray(int node) {
     if (node < 0 || node > index.length) {
       throw new IllegalArgumentException("Out of bounds");

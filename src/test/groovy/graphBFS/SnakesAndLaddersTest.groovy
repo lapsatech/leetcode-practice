@@ -6,7 +6,7 @@ import spock.lang.Unroll
 class SnakesAndLaddersTest extends Specification {
 
   @Unroll
-  def 'test'(def board, def expectResult) {
+  def 'test'(def board, def expectResult, def expectPath) {
     given:
     def subject = new SnakesAndLadders();
 
@@ -16,8 +16,14 @@ class SnakesAndLaddersTest extends Specification {
     then:
     result == expectResult
 
+    when:
+    def path = subject.snakesAndLaddersPath(board as int[][])
+
+    then:
+    path == expectPath
+    
     where:
-    board                           | expectResult
+    board                           | expectResult  | expectPath
     [
       [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
       [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
@@ -31,7 +37,7 @@ class SnakesAndLaddersTest extends Specification {
       [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
       [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
       [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
-    ]                               | 24
+    ]                               | 24            | [0, 5, 11, 17, 23, 29, 35, 41, 47, 53, 59, 65, 71, 77, 83, 89, 95, 101, 107, 113, 119, 125, 131, 137, 143]
 
     [
       [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
@@ -46,7 +52,7 @@ class SnakesAndLaddersTest extends Specification {
       [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
       [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
       [-1, 144, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
-    ]                               | 1
+    ]                               | 1             | [0, 143]
 
     [
       [-1,-1,-1,-1,-1,-1],
@@ -55,7 +61,7 @@ class SnakesAndLaddersTest extends Specification {
       [-1,35,-1,-1,13,-1],
       [-1,-1,-1,-1,-1,-1],
       [-1,15,-1,-1,-1,-1]
-    ]                                | 4
+    ]                                | 4            | [0, 2, 7, 34, 35]
 
     [
       [ -1, -1, -1, -1, -1 ],
@@ -63,7 +69,7 @@ class SnakesAndLaddersTest extends Specification {
       [ -1, -1, -1, -1, -1 ],
       [ -1, -1, -1, -1, -1 ],
       [ -1, -1, -1, -1, -1 ]
-    ]                                | 4
+    ]                                | 4            | [0, 6, 12, 18, 24]
 
     [
       [ -1, -1, -1, -1, -1 ],
@@ -71,7 +77,7 @@ class SnakesAndLaddersTest extends Specification {
       [ -1, -1, -1, -1, -1 ],
       [ -1, -1, -1, -1, -1 ],
       [ -1, 25, -1, -1, -1 ]
-    ]                                | 1
+    ]                                | 1            | [0, 24]
 
     [
       [ -1, -1, -1, -1, -1 ],
@@ -79,7 +85,7 @@ class SnakesAndLaddersTest extends Specification {
       [ -1, -1, -1, -1, -1 ],
       [ -1, -1, -1, 25, -1 ],
       [ -1, -1, -1, -1, -1 ]
-    ]                                | 1
+    ]                                | 1            | [0, 24]
 
     [
       [ -1, -1, -1, -1, -1 ],
@@ -87,7 +93,7 @@ class SnakesAndLaddersTest extends Specification {
       [ -1, -1, -1, -1, -1 ],
       [ -1, -1, 25, -1, -1 ],
       [ -1, -1, -1, -1, -1 ]
-    ]                                | 2
+    ]                                | 2            | [0, 1, 24]
 
     [
       [ -1, -1, -1, -1, -1 ],
@@ -95,7 +101,7 @@ class SnakesAndLaddersTest extends Specification {
       [ -1, -1, -1, 25, -1 ],
       [ -1, -1, -1, -1, -1 ],
       [ -1, -1, -1, -1, -1 ]
-    ]                                | 3
+    ]                                | 3            | [0, 1, 7, 24]
 
     [
       [-1, -1, -1, -1, 48, 5, -1],
@@ -105,8 +111,8 @@ class SnakesAndLaddersTest extends Specification {
       [42, -1, 2, -1, -1, -1, 6],
       [39, -1, 35, -1, -1, 39,-1],
       [-1, 36, -1, -1, -1, -1, 5]
-    ]                                | 3
+    ]                                | 3            | [0, 35, 28, 48]
 
-    [[-1, -1], [-1, 3]]              | 1
+    [[-1, -1], [-1, 3]]              | 1            | [0, 3]
   }
 }

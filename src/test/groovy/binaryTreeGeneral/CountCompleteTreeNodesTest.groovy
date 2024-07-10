@@ -1,6 +1,6 @@
 package binaryTreeGeneral
 
-import models.binaryTree.TreeNode
+import models.binaryTree.BinaryTreeNode
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -10,7 +10,7 @@ class CountCompleteTreeNodesTest extends Specification {
   def 'test'(def treeDef, def expectCount) {
     given:
     def subject = new CountCompleteTreeNodes();
-    def root = TreeNode.ofList(treeDef)
+    def root = BinaryTreeNode.ofList(treeDef)
 
     when:
     def res = subject.countNodes(root)

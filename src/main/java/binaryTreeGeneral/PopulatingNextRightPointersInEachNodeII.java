@@ -2,25 +2,25 @@ package binaryTreeGeneral;
 
 import java.util.LinkedList;
 
-import models.binaryTree.Node;
+import models.binaryTree.NodeWithNextRightPointer;
 
 public class PopulatingNextRightPointersInEachNodeII {
 
-  public Node connect(Node root) {
+  public NodeWithNextRightPointer connect(NodeWithNextRightPointer root) {
     return bfs(root);
   }
 
-  private Node bfs(Node root) {
+  private NodeWithNextRightPointer bfs(NodeWithNextRightPointer root) {
     if (root == null) {
       return null;
     }
 
-    LinkedList<Node> stack = new LinkedList<>();
+    LinkedList<NodeWithNextRightPointer> stack = new LinkedList<>();
     stack.addLast(root);
 
     while (!stack.isEmpty()) {
       int sz = stack.size();
-      Node n = stack.removeLast();
+      NodeWithNextRightPointer n = stack.removeLast();
 
       if (n.left != null) {
         stack.addFirst(n.left);
@@ -30,7 +30,7 @@ public class PopulatingNextRightPointersInEachNodeII {
       }
 
       for (int i = 1; i < sz; i++) {
-        Node nn = stack.removeLast();
+        NodeWithNextRightPointer nn = stack.removeLast();
         if (nn.left != null) {
           stack.addFirst(nn.left);
         }

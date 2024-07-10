@@ -6,24 +6,24 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
-import models.binaryTree.TreeNode;
+import models.binaryTree.BinaryTreeNode;
 
 public class LowestCommonAncestorOfABinaryTree {
 
-  public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+  public BinaryTreeNode lowestCommonAncestor(BinaryTreeNode root, BinaryTreeNode p, BinaryTreeNode q) {
     return iterativeLowestCommonAncestor(root, p, q);
   }
 
-  private TreeNode iterativeLowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+  private BinaryTreeNode iterativeLowestCommonAncestor(BinaryTreeNode root, BinaryTreeNode p, BinaryTreeNode q) {
 
-    Map<Integer, TreeNode> parents = new HashMap<>();
+    Map<Integer, BinaryTreeNode> parents = new HashMap<>();
 
-    LinkedList<TreeNode> stack = new LinkedList<>();
+    LinkedList<BinaryTreeNode> stack = new LinkedList<>();
     stack.push(root);
     boolean pfound = false;
     boolean qfound = false;
     while (!stack.isEmpty()) {
-      TreeNode node = stack.pop();
+      BinaryTreeNode node = stack.pop();
 
       pfound |= node.val == p.val;
       qfound |= node.val == q.val;

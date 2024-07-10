@@ -3,18 +3,17 @@ package graphBFS;
 import java.util.Collection;
 import java.util.HashSet;
 
-import utils.graph.ShortestPathLength;
-import utils.graph.SimpleGraph;
+import utils.graph.Graph;
+import utils.graph.Graphs;
 
 public class MinimumGeneticMutation {
 
   public int minMutation(String startGene, String endGene, String[] bank) {
-    SimpleGraph<String> graph = new GeneMutationGraph(bank);
-    ShortestPathLength util = new ShortestPathLength();
-    return util.findLength(graph, startGene, endGene);
+    Graph<String> graph = new GeneMutationGraph(bank);
+    return Graphs.shortestPathLength(graph, startGene, endGene);
   }
 
-  private static class GeneMutationGraph implements SimpleGraph<String> {
+  private static class GeneMutationGraph implements Graph<String> {
 
     private String[] bank;
 

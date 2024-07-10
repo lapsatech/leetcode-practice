@@ -1,22 +1,22 @@
 package binaryTreeGeneral;
 
-import models.binaryTree.TreeNode;
+import models.binaryTree.BinaryTreeNode;
 
 public class FlattenBinaryTreeToLinkedList {
 
-  public void flatten(TreeNode root) {
+  public void flatten(BinaryTreeNode root) {
     if (root == null) {
       return;
     }
     helperRecursive(root);
   }
 
-  private TreeNode helperRecursive(TreeNode root) {
+  private BinaryTreeNode helperRecursive(BinaryTreeNode root) {
     if (root.left != null) {
-      TreeNode left1 = helperRecursive(root.left);
+      BinaryTreeNode left1 = helperRecursive(root.left);
       if (root.right != null) {
-        TreeNode right1 = helperRecursive(root.right);
-        TreeNode t = root.right;
+        BinaryTreeNode right1 = helperRecursive(root.right);
+        BinaryTreeNode t = root.right;
         root.right = root.left;
         root.left = null;
         left1.right = t;
@@ -28,7 +28,7 @@ public class FlattenBinaryTreeToLinkedList {
       }
     } else {
       if (root.right != null) {
-        TreeNode right1 = helperRecursive(root.right);
+        BinaryTreeNode right1 = helperRecursive(root.right);
         return right1;
       } else {
         return root;

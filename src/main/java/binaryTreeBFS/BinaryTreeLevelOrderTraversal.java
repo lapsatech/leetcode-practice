@@ -1,34 +1,35 @@
 package binaryTreeBFS;
 
 import java.util.Collections;
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
-import models.binaryTree.TreeNode;
+import models.binaryTree.BinaryTreeNode;
 
 public class BinaryTreeLevelOrderTraversal {
 
-  public List<List<Integer>> levelOrder(TreeNode root) {
+  public List<List<Integer>> levelOrder(BinaryTreeNode root) {
     if (root == null) {
       return Collections.emptyList();
     }
     List<List<Integer>> result = new LinkedList<>();
 
-    LinkedList<TreeNode> q = new LinkedList<>();
-    q.add(root);
+    Deque<BinaryTreeNode> fifo = new LinkedList<>();
+    fifo.addFirst(root);
 
-    while (!q.isEmpty()) {
-      int lsize = q.size();
+    while (!fifo.isEmpty()) {
+      int lsize = fifo.size();
       LinkedList<Integer> level = new LinkedList<>();
       for (int i = 0; i < lsize; i++) {
-        TreeNode n = q.removeLast();
+        BinaryTreeNode n = fifo.removeLast();
         level.add(n.val);
 
         if (n.left != null) {
-          q.addFirst(n.left);
+          fifo.addFirst(n.left);
         }
         if (n.right != null) {
-          q.addFirst(n.right);
+          fifo.addFirst(n.right);
         }
       }
       result.add(level);

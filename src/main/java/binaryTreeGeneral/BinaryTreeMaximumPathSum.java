@@ -6,11 +6,11 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
-import models.binaryTree.TreeNode;
+import models.binaryTree.BinaryTreeNode;
 
 public class BinaryTreeMaximumPathSum {
 
-    public int maxPathSum(TreeNode root) {
+    public int maxPathSum(BinaryTreeNode root) {
         maxSum = Integer.MIN_VALUE;
         gainFromSubtree(root);
         return maxSum;
@@ -19,7 +19,7 @@ public class BinaryTreeMaximumPathSum {
     private int maxSum;
 
     // post order traversal of subtree rooted at `root`
-    private int gainFromSubtree(TreeNode root) {
+    private int gainFromSubtree(BinaryTreeNode root) {
         if (root == null) {
             return 0;
         }
@@ -40,12 +40,12 @@ public class BinaryTreeMaximumPathSum {
         return Math.max(gainFromLeft + root.val, gainFromRight + root.val);
     }
 
-  private TreeNode closestCommonAncestor(Map<TreeNode, TreeNode> parentsIndex, final TreeNode pp, final TreeNode qq) {
+  private BinaryTreeNode closestCommonAncestor(Map<BinaryTreeNode, BinaryTreeNode> parentsIndex, final BinaryTreeNode pp, final BinaryTreeNode qq) {
 
-    Set<TreeNode> ancestors = new HashSet<>();
+    Set<BinaryTreeNode> ancestors = new HashSet<>();
 
-    TreeNode q = qq;
-    TreeNode p = pp;
+    BinaryTreeNode q = qq;
+    BinaryTreeNode p = pp;
 
     while (p != null) {
       ancestors.add(p);
@@ -59,14 +59,14 @@ public class BinaryTreeMaximumPathSum {
     return q;
   }
 
-  public int maxPathSum2(TreeNode root) {
-    Map<TreeNode, TreeNode> parentsIndex = new HashMap<>();
-    LinkedList<TreeNode> nodesIndex = new LinkedList<>();
+  public int maxPathSum2(BinaryTreeNode root) {
+    Map<BinaryTreeNode, BinaryTreeNode> parentsIndex = new HashMap<>();
+    LinkedList<BinaryTreeNode> nodesIndex = new LinkedList<>();
 
-    LinkedList<TreeNode> stack = new LinkedList<>();
+    LinkedList<BinaryTreeNode> stack = new LinkedList<>();
     stack.push(root);
     while (!stack.isEmpty()) {
-      TreeNode node = stack.pop();
+      BinaryTreeNode node = stack.pop();
       nodesIndex.add(node);
       if (node.right != null) {
         stack.push(node.right);
@@ -85,10 +85,10 @@ public class BinaryTreeMaximumPathSum {
     int maximum = Integer.MIN_VALUE;
 
     while (!nodesIndex.isEmpty()) {
-      TreeNode q = nodesIndex.poll();
+      BinaryTreeNode q = nodesIndex.poll();
 
-      for (TreeNode p : nodesIndex) {
-        TreeNode middle = closestCommonAncestor(parentsIndex, p, q);
+      for (BinaryTreeNode p : nodesIndex) {
+        BinaryTreeNode middle = closestCommonAncestor(parentsIndex, p, q);
         int ps = sum(parentsIndex, p, middle);
         int qs = sum(parentsIndex, q, middle);
         int sum = ps + qs + middle.val;
@@ -100,8 +100,8 @@ public class BinaryTreeMaximumPathSum {
     return maximum;
   }
 
-  private int sum(Map<TreeNode, TreeNode> parentsIndex, final TreeNode node, final TreeNode ancestor) {
-    TreeNode n = node;
+  private int sum(Map<BinaryTreeNode, BinaryTreeNode> parentsIndex, final BinaryTreeNode node, final BinaryTreeNode ancestor) {
+    BinaryTreeNode n = node;
     int sum = 0;
     while (n != ancestor) {
       sum += n.val;

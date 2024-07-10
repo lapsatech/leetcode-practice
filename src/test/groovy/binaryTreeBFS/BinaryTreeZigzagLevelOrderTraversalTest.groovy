@@ -1,6 +1,6 @@
 package binaryTreeBFS
 
-import models.binaryTree.TreeNode
+import models.binaryTree.BinaryTreeNode
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -10,7 +10,7 @@ class BinaryTreeZigzagLevelOrderTraversalTest extends Specification {
   def 'test'(def treeDef, def expectZigzag) {
     given:
     def subject = new BinaryTreeZigzagLevelOrderTraversal();
-    def root = TreeNode.ofList(treeDef)
+    def root = BinaryTreeNode.ofList(treeDef)
 
     when:
     def res = subject.zigzagLevelOrder(root)

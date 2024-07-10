@@ -1,33 +1,34 @@
 package binaryTreeBFS;
 
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
-import models.binaryTree.TreeNode;
+import models.binaryTree.BinaryTreeNode;
 
 public class AverageOfLevelsInBinaryTree {
 
-  public List<Double> averageOfLevels(TreeNode root) {
+  public List<Double> averageOfLevels(BinaryTreeNode root) {
     if (root == null) {
       throw new IllegalArgumentException();
     }
     List<Double> result = new ArrayList<>();
-    LinkedList<TreeNode> q = new LinkedList<>();
+    Deque<BinaryTreeNode> queue = new LinkedList<>();
 
-    q.addFirst(root);
+    queue.addFirst(root);
 
-    while (!q.isEmpty()) {
+    while (!queue.isEmpty()) {
       long lsum = 0;
-      int lcount = q.size();
+      int lcount = queue.size();
       for (int i = 0; i < lcount; i++) {
-        TreeNode t = q.removeFirst();
+        BinaryTreeNode t = queue.removeLast();
         lsum += t.val;
         if (t.left != null) {
-          q.addLast(t.left);
+          queue.addFirst(t.left);
         }
         if (t.right != null) {
-          q.addLast(t.right);
+          queue.addFirst(t.right);
         }
       }
       result.add(

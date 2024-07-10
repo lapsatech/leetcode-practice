@@ -1,27 +1,28 @@
 package binaryTreeGeneral;
 
+import java.util.Deque;
 import java.util.LinkedList;
 
-import models.binaryTree.TreeNode;
+import models.binaryTree.BinaryTreeNode;
 
 public class BinarySearchTreeIterator {
 
   static class BSTIterator {
 
-    private LinkedList<TreeNode> stack = new LinkedList<>();
-    private TreeNode node;
+    private Deque<BinaryTreeNode> lifo = new LinkedList<>();
+    private BinaryTreeNode node;
 
-    public BSTIterator(TreeNode root) {
+    public BSTIterator(BinaryTreeNode root) {
       this.node = root;
     }
 
     public int next() {
-      while (!stack.isEmpty() || node != null) {
+      while (!lifo.isEmpty() || node != null) {
         if (node != null) {
-          stack.push(node);
+          lifo.push(node);
           node = node.left;
         } else {
-          TreeNode visit = stack.pop();
+          BinaryTreeNode visit = lifo.pop();
           node = visit.right;
           return visit.val;
         }
@@ -30,7 +31,7 @@ public class BinarySearchTreeIterator {
     }
 
     public boolean hasNext() {
-      return !stack.isEmpty() || node != null;
+      return !lifo.isEmpty() || node != null;
     }
   }
 

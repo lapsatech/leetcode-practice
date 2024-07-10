@@ -1,7 +1,7 @@
 package binaryTreeGeneral
 
 import binaryTreeGeneral.BinarySearchTreeIterator.BSTIterator
-import models.binaryTree.TreeNode
+import models.binaryTree.BinaryTreeNode
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -10,7 +10,7 @@ class BinarySearchTreeIteratorTest  extends Specification {
   @Unroll
   def 'test'(def treeDef, def expectIteratorList) {
     given:
-    def root = TreeNode.ofList(treeDef)
+    def root = BinaryTreeNode.ofList(treeDef)
     def subject = new BSTIterator(root);
 
     when:

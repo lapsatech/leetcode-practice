@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import utils.graph.SimpleGraph;
-import utils.graph.SimpleGraphTraverse;
+import utils.graph.Graph;
+import utils.graph.Graphs;
 
 public class NumberOfIslands {
 
@@ -139,13 +139,69 @@ public class NumberOfIslands {
     return s.scanIterative();
   }
 
-  int numIslandsSimpleGraph(char[][] grid) {
-    int m = grid.length;
-    int n = grid[0].length;
+  int numIslandsGraph(char[][] grid) {
 
-    SimpleGraph<int[]> graph = new IslandsGraph(m, n);
-    IslandsVisited visited = new IslandsVisited(m, n);
-    SimpleGraphTraverse traverse = SimpleGraphTraverse.dfsRecursive();
+    final int m = grid.length;
+    final int n = grid[0].length;
+
+    class IslandsGraph implements Graph<int[]> {
+
+      @Override
+      public Collection<int[]> childs(int[] xy) {
+        ArrayList<int[]> childs = new ArrayList<>(4);
+
+        if (xy[0] + 1 < m) {
+          childs.add(new int[] { xy[0] + 1, xy[1] });
+        }
+        if (xy[0] > 0) {
+          childs.add(new int[] { xy[0] - 1, xy[1] });
+        }
+        if (xy[1] + 1 < n) {
+          childs.add(new int[] { xy[0], xy[1] + 1 });
+        }
+        if (xy[1] > 0) {
+          childs.add(new int[] { xy[0], xy[1] - 1 });
+        }
+
+        return childs;
+      }
+
+      @Override
+      public boolean isTheSame(int[] xy1, int[] xy2) {
+        return xy1.length == 2
+            && xy2.length == 2
+            && xy1[0] == xy2[0]
+            && xy1[1] == xy2[1];
+      }
+
+    }
+    
+    class IslandsVisited {
+
+      private final boolean[] visited;
+
+      IslandsVisited() {
+        this.visited = new boolean[m * n];
+      }
+
+      boolean visited(int x, int y) {
+        return visited[y * m + x];
+      }
+
+      boolean visit(int x, int y) {
+        int idx = y * m + x;
+        if (visited[idx]) {
+          return false;
+        }
+        visited[idx] = true;
+        return true;
+      }
+
+    }
+
+
+    Graph<int[]> graph = new IslandsGraph();
+    IslandsVisited visited = new IslandsVisited();
 
     int num = 0;
     for (int x = 0; x < m; x++) {
@@ -155,7 +211,7 @@ public class NumberOfIslands {
         }
         if (grid[x][y] == '1') {
           num++;
-          traverse.traverse(graph, new int[] { x, y }, xy -> {
+          Graphs.dfsTraverse(graph, new int[] { x, y }, xy -> {
             if (!visited.visit(xy[0], xy[1])) {
               return false;
             }
@@ -170,68 +226,4 @@ public class NumberOfIslands {
     return num;
   }
 
-  static class IslandsVisited {
-
-    private final boolean[] visited;
-    private int m;
-
-    IslandsVisited(int m, int n) {
-      this.m = m;
-      this.visited = new boolean[m * n];
-    }
-
-    boolean visited(int x, int y) {
-      return visited[y * m + x];
-    }
-
-    boolean visit(int x, int y) {
-      int idx = y * m + x;
-      if (visited[idx]) {
-        return false;
-      }
-      visited[idx] = true;
-      return true;
-    }
-
-  }
-
-  static class IslandsGraph implements SimpleGraph<int[]> {
-
-    private final int m;
-    private final int n;
-
-    IslandsGraph(int m, int n) {
-      this.m = m;
-      this.n = n;
-    }
-
-    @Override
-    public Collection<int[]> childs(int[] xy) {
-      ArrayList<int[]> childs = new ArrayList<>(4);
-
-      if (xy[0] + 1 < m) {
-        childs.add(new int[] { xy[0] + 1, xy[1] });
-      }
-      if (xy[0] > 0) {
-        childs.add(new int[] { xy[0] - 1, xy[1] });
-      }
-      if (xy[1] + 1 < n) {
-        childs.add(new int[] { xy[0], xy[1] + 1 });
-      }
-      if (xy[1] > 0) {
-        childs.add(new int[] { xy[0], xy[1] - 1 });
-      }
-
-      return childs;
-    }
-
-    @Override
-    public boolean isTheSame(int[] xy1, int[] xy2) {
-      return xy1.length == 2
-          && xy2.length == 2
-          && xy1[0] == xy2[0]
-          && xy1[1] == xy2[1];
-    }
-
-  }
 }

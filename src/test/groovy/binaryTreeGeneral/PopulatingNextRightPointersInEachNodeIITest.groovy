@@ -1,7 +1,7 @@
 package binaryTreeGeneral
 
 import binaryTreeGeneral.BinarySearchTreeIterator.BSTIterator
-import models.binaryTree.Node
+import models.binaryTree.NodeWithNextRightPointer
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -10,12 +10,12 @@ class PopulatingNextRightPointersInEachNodeIITest  extends Specification {
   @Unroll
   def 'test'(def treeDef, def expectList) {
     given:
-    def root = Node.ofList(treeDef)
+    def root = NodeWithNextRightPointer.ofList(treeDef)
     def subject = new PopulatingNextRightPointersInEachNodeII();
 
     when:
     def res = subject.connect(root)
-    def result = Node.toNextList(res)
+    def result = NodeWithNextRightPointer.toNextList(res)
     
 
     then:

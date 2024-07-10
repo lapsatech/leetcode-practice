@@ -10,18 +10,17 @@ import java.util.List;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import utils.graph.ShortestPathLength;
-import utils.graph.SimpleGraph;
+import utils.graph.Graph;
+import utils.graph.Graphs;
 
 public class WordLadder {
 
   public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-    SimpleGraph<String> graph = buildWordMutationIndexGraph(wordList, beginWord);
-    ShortestPathLength util = new ShortestPathLength();
-    return util.findLength(graph, beginWord, endWord) + 1;
+    Graph<String> graph = buildWordMutationIndexGraph(wordList, beginWord);
+    return Graphs.shortestPathLength(graph, beginWord, endWord) + 1;
   }
 
-  private static SimpleGraph<String> buildWordMutationIndexGraph(List<String> wordList, String beginWord) {
+  private static Graph<String> buildWordMutationIndexGraph(List<String> wordList, String beginWord) {
     TreeMap<String, TreeSet<String>> index = new TreeMap<>();
 
     ArrayList<String> cpy = new ArrayList<>(wordList);
@@ -48,11 +47,11 @@ public class WordLadder {
       }
     }
 
-    return SimpleGraph.ofMap(index);
+    return Graphs.ofMap(index);
   }
 
   @SuppressWarnings("unused")
-  private static class WordMutationDynamicGraph implements SimpleGraph<String> {
+  private static class WordMutationDynamicGraph implements Graph<String> {
 
     private List<String> wordList;
 

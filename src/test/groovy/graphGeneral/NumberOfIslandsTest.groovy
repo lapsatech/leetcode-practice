@@ -38,7 +38,7 @@ class NumberOfIslandsTest extends Specification {
     num3 == expectedNum
 
     when:
-    def num4 = subject.numIslandsSimpleGraph(ng)
+    def num4 = subject.numIslandsGraph(ng)
 
     then:
     num4 == expectedNum
