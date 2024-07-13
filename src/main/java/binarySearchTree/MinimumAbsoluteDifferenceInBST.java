@@ -1,7 +1,5 @@
 package binarySearchTree;
 
-import java.util.function.Consumer;
-
 import models.binaryTree.TreeNode;
 
 public class MinimumAbsoluteDifferenceInBST {
@@ -23,30 +21,8 @@ public class MinimumAbsoluteDifferenceInBST {
       }
     }
 
-    interface Traverse {
-      void traverse(TreeNode node, Consumer<TreeNode> visitor);
-    }
-
-    class Inorder implements Traverse {
-
-      @Override
-      public void traverse(TreeNode node, Consumer<TreeNode> visitor) {
-
-        if (node.left != null) {
-          traverse(node.left, visitor);
-        }
-
-        visitor.accept(node);
-
-        if (node.right != null) {
-          traverse(node.right, visitor);
-        }
-      }
-
-    }
-
     MinValueDifferenceFinderVisitor minFinder = new MinValueDifferenceFinderVisitor();
-    Traverse traverse = new Inorder();
+    Traverse traverse = new RecursiveInorder();
     traverse.traverse(root, minFinder::visit);
     return minFinder.min;
   }
