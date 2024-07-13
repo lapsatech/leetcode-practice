@@ -10,6 +10,10 @@ public class TreeNode extends Node<TreeNode> {
     return ofList(asList, TreeNode::new, TreeNode[]::new);
   }
 
+  public static TreeNode ofList(Integer... array) {
+    return ofList(Arrays.asList(array), TreeNode::new, TreeNode[]::new);
+  }
+
   public TreeNode() {
     super();
   }
